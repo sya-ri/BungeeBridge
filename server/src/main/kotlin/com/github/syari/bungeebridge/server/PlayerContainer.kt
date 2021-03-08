@@ -12,6 +12,10 @@ object PlayerContainer {
         }
     }
 
+    fun clear(name: String) {
+        servers.remove(name)
+    }
+
     val allPlayerCount
         get() = servers.values.sumBy { it.size }
 }

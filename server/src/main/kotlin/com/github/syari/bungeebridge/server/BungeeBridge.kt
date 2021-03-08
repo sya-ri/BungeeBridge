@@ -1,5 +1,6 @@
 package com.github.syari.bungeebridge.server
 
+import com.github.syari.bungeebridge.server.route.clearAction
 import com.github.syari.bungeebridge.server.route.updateAction
 import io.ktor.application.install
 import io.ktor.features.ContentNegotiation
@@ -22,6 +23,7 @@ object BungeeBridge {
             }
             routing {
                 post("/update") { updateAction() }
+                post("/clear") { clearAction() }
             }
         }.start(wait = true)
     }
