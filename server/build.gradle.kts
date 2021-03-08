@@ -1,4 +1,6 @@
 dependencies {
+    shadowImplementation("io.ktor:ktor-server-netty:1.5.2")
+    shadowImplementation("io.ktor:ktor-jackson:1.5.2")
     shadowImplementation("ch.qos.logback:logback-classic:1.2.3")
 }
 

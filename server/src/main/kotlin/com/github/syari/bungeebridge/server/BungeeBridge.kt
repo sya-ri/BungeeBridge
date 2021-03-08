@@ -1,5 +1,13 @@
 package com.github.syari.bungeebridge.server
 
+import com.github.syari.bungeebridge.server.route.updateAction
+import io.ktor.application.install
+import io.ktor.features.ContentNegotiation
+import io.ktor.jackson.jackson
+import io.ktor.routing.post
+import io.ktor.routing.routing
+import io.ktor.server.engine.embeddedServer
+import io.ktor.server.netty.Netty
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -8,6 +16,13 @@ object BungeeBridge {
 
     @JvmStatic
     fun main(args: Array<String>) {
-        logger.info("This is Server")
+        embeddedServer(Netty, port = 8000) {
+            install(ContentNegotiation) {
+                jackson()
+            }
+            routing {
+                post("/update") { updateAction() }
+            }
+        }.start(wait = true)
     }
 }
