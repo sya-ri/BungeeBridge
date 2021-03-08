@@ -1,6 +1,7 @@
 package com.github.syari.bungeebridge.server.route
 
 import com.github.syari.bungeebridge.server.PlayerContainer
+import com.github.syari.bungeebridge.shared.ClearRequest
 import io.ktor.application.ApplicationCall
 import io.ktor.application.call
 import io.ktor.http.HttpStatusCode
@@ -8,10 +9,6 @@ import io.ktor.request.ContentTransformationException
 import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.util.pipeline.PipelineContext
-
-data class ClearRequest(
-    val name: String
-)
 
 suspend fun PipelineContext<Unit, ApplicationCall>.clearAction() {
     val (name) = try {

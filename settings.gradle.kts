@@ -1,3 +1,3 @@
 rootProject.name = "BungeeBridge"
 
-include("plugin", "server")
+include("plugin", "server", "shared")
