@@ -1,5 +1,6 @@
 package com.github.syari.bungeebridge.server
 
+import com.github.syari.bungeebridge.server.properties.Option
 import com.github.syari.bungeebridge.server.route.clearAction
 import com.github.syari.bungeebridge.server.route.updateAction
 import io.ktor.application.install
@@ -17,7 +18,7 @@ object BungeeBridge {
 
     @JvmStatic
     fun main(args: Array<String>) {
-        embeddedServer(Netty, port = 8000) {
+        embeddedServer(Netty, port = Option.Port) {
             install(ContentNegotiation) {
                 jackson()
             }
