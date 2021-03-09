@@ -10,3 +10,9 @@ object GList {
     const val permission = "bungeecord.command.list"
     val aliases = arrayOf("gblist")
 }
+
+object BungeeGList {
+    const val name = "bungee:glist"
+    const val permission = "bungeecord.command.list"
+    val aliases = arrayOf("glist:bungee")
+}
