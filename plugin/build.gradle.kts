@@ -20,4 +20,5 @@ configure<BungeePluginDescription> {
     main = "com.github.syari.bungeebridge.plugin.BungeeBridge"
     description = "Share Player Information With Other Bungeecord Servers"
     author = "sya_ri"
+    softDepends = setOf("cmd_list")
 }

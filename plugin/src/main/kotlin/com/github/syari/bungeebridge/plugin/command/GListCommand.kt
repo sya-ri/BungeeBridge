@@ -8,18 +8,24 @@ import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.CommandSender
 import net.md_5.bungee.api.plugin.Command
 
-object ListCommand : Command(List.name, List.permission) {
+object GListCommand : Command(GList.name, GList.permission, *GList.aliases) {
     @Suppress("DEPRECATION")
     override fun execute(sender: CommandSender, args: Array<out String>) {
         GlobalScope.launch(Dispatchers.IO) {
             val list = APIClient.list()
             if (list != null) {
-                buildString {
-                    list.forEach { (name, data) ->
-                        val players = data.players
-                        sender.sendMessage("${ChatColor.AQUA}[$name] ${ChatColor.YELLOW}(${players.size}): ${ChatColor.RESET}${players.keys.joinToString()}")
+                val allList = mutableMapOf<String, MutableSet<String>>().apply {
+                    list.values.forEach {
+                        it.players.forEach { (playerName, serverName) ->
+                            getOrPut(serverName, ::mutableSetOf).add(playerName)
+                        }
                     }
-                    sender.sendMessage("${ChatColor.RESET}Total players online: ${list.values.sumBy { it.players.keys.size }}")
+                }
+                buildString {
+                    allList.forEach { (name, players) ->
+                        sender.sendMessage("${ChatColor.LIGHT_PURPLE}[$name] ${ChatColor.YELLOW}(${players.size}): ${ChatColor.RESET}${players.joinToString()}")
+                    }
+                    sender.sendMessage("${ChatColor.RESET}Total players online: ${allList.values.sumBy { it.size }}")
                 }
             } else {
                 sender.sendMessage("${ChatColor.RED}APIの接続に失敗しました")

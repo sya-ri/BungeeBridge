@@ -1,5 +1,6 @@
 package com.github.syari.bungeebridge.plugin
 
+import com.github.syari.bungeebridge.plugin.command.GListCommand
 import com.github.syari.bungeebridge.plugin.command.ListCommand
 import net.md_5.bungee.api.plugin.Plugin
 
@@ -19,6 +20,8 @@ class BungeeBridge : Plugin() {
         proxy.pluginManager.run {
             registerListener(plugin, SharePlayerCount)
             registerCommand(plugin, ListCommand)
+            getPlugin("cmd_list")?.let(::unregisterCommands)
+            registerCommand(plugin, GListCommand)
         }
     }
 
