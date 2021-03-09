@@ -17,9 +17,9 @@ object ListCommand : Command(List.name, List.permission) {
                 buildString {
                     list.forEach { (name, data) ->
                         val players = data.players
-                        sender.sendMessage("${ChatColor.AQUA}[$name] ${ChatColor.GOLD}(${players.size}): ${ChatColor.RESET}${players.joinToString()}")
+                        sender.sendMessage("${ChatColor.AQUA}[$name] ${ChatColor.GOLD}(${players.size}): ${ChatColor.RESET}${players.keys.joinToString()}")
                     }
-                    sender.sendMessage("${ChatColor.RESET}Total players online: ${list.values.sumBy { it.players.size }}")
+                    sender.sendMessage("${ChatColor.RESET}Total players online: ${list.values.sumBy { it.players.keys.size }}")
                 }
             } else {
                 sender.sendMessage("${ChatColor.RED}APIの接続に失敗しました")

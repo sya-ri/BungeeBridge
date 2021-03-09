@@ -36,15 +36,13 @@ object APIClient {
     }
 
     private suspend fun update() {
-        val join = SharePlayerCount.joinPlayers
-        val quit = SharePlayerCount.quitPlayers
+        val players = SharePlayerCount.players
         val response = call<UpdateResponse>(Path.Update) {
             method = HttpMethod.Post
             contentType(ContentType.Application.Json)
-            body = UpdateRequest(Config.serverName, join, quit)
+            body = UpdateRequest(Config.serverName, players)
         } ?: return
-        SharePlayerCount.joinPlayers.removeAll(join)
-        SharePlayerCount.quitPlayers.removeAll(quit)
+        players.forEach { SharePlayerCount.players.remove(it.key) }
         SharePlayerCount.playerCount = response.allCount
     }
 

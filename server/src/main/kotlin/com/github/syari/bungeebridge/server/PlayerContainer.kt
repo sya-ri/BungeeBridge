@@ -7,13 +7,18 @@ import java.util.concurrent.ConcurrentHashMap
 import kotlin.concurrent.timerTask
 
 object PlayerContainer {
-    private val servers = ConcurrentHashMap<String, MutableSet<String>>()
+    private val servers = ConcurrentHashMap<String, ConcurrentHashMap<String, String>>()
     private val crashWatchdogTasks = ConcurrentHashMap<String, TimerTask>()
 
-    fun update(name: String, join: Set<String>, quit: Set<String>) {
-        servers.getOrPut(name, ::mutableSetOf).run {
-            removeAll(quit)
-            addAll(join)
+    fun update(name: String, players: Map<String, String>) {
+        servers.getOrPut(name, ::ConcurrentHashMap).run {
+            players.forEach { (playerName, serverName) ->
+                if (serverName.isEmpty()) {
+                    remove(playerName)
+                } else {
+                    put(playerName, serverName)
+                }
+            }
         }
         crashWatchdogTasks[name]?.cancel()
         crashWatchdogTasks[name] = timerTask {

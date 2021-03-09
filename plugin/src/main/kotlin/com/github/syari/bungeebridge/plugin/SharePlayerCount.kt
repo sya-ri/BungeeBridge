@@ -1,16 +1,16 @@
 package com.github.syari.bungeebridge.plugin
 
 import net.md_5.bungee.api.event.PlayerDisconnectEvent
-import net.md_5.bungee.api.event.PostLoginEvent
 import net.md_5.bungee.api.event.ProxyPingEvent
+import net.md_5.bungee.api.event.ServerConnectedEvent
 import net.md_5.bungee.api.plugin.Listener
 import net.md_5.bungee.event.EventHandler
+import java.util.concurrent.ConcurrentHashMap
 
 object SharePlayerCount : Listener {
     var playerCount = 0
 
-    val joinPlayers = mutableSetOf<String>()
-    val quitPlayers = mutableSetOf<String>()
+    val players = ConcurrentHashMap<String, String>()
 
     @EventHandler
     fun on(event: ProxyPingEvent) {
@@ -18,17 +18,14 @@ object SharePlayerCount : Listener {
     }
 
     @EventHandler
-    fun on(event: PostLoginEvent) {
+    fun on(event: ServerConnectedEvent) {
         val playerName = event.player.name
-        joinPlayers.add(playerName)
-        quitPlayers.remove(playerName)
+        players[playerName] = event.server.info.name
     }
 
     @EventHandler
     fun on(event: PlayerDisconnectEvent) {
         val playerName = event.player.name
-        if (joinPlayers.remove(playerName).not()) {
-            quitPlayers.add(event.player.name)
-        }
+        players[playerName] = ""
     }
 }

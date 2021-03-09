@@ -13,12 +13,17 @@ import io.ktor.response.respond
 import io.ktor.util.pipeline.PipelineContext
 
 suspend fun PipelineContext<Unit, ApplicationCall>.updateAction() {
-    val (name, join, quit) = try {
+    val (name, players) = try {
         call.receive<UpdateRequest>()
     } catch (ex: ContentTransformationException) {
         return call.respond(HttpStatusCode.BadRequest)
     }
-    BungeeBridge.logger.info("$name: +(${join.joinToString()}) -(${quit.joinToString()})")
-    PlayerContainer.update(name, join, quit)
+    val playerInfo = buildString {
+        players.forEach { (playerName, serverName) ->
+            append(" $playerName-$serverName")
+        }
+    }
+    BungeeBridge.logger.info("$name:$playerInfo")
+    PlayerContainer.update(name, players)
     call.respond(UpdateResponse(PlayerContainer.allPlayerCount))
 }
