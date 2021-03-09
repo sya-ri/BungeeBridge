@@ -1,8 +1,8 @@
 # BungeeBridge
 
-## Server
+## Configuration
 
-### Properties
+### Server
 
 #### option.properties
 
@@ -11,9 +11,7 @@
 | Port | ポート番号 | 8080 |
 | CrashTime | クラッシュ扱いにする時間(ms) | 30000(30s) |
 
-## Plugin
-
-### Config
+### Plugin
 
 ### config.yml
 
