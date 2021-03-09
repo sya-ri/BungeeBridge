@@ -2,6 +2,7 @@ package com.github.syari.bungeebridge.plugin
 
 import com.github.syari.bungeebridge.plugin.BungeeBridge.Companion.plugin
 import com.github.syari.bungeebridge.shared.ClearRequest
+import com.github.syari.bungeebridge.shared.ListResponse
 import com.github.syari.bungeebridge.shared.Path
 import com.github.syari.bungeebridge.shared.UpdateRequest
 import com.github.syari.bungeebridge.shared.UpdateResponse
@@ -58,6 +59,12 @@ object APIClient {
             method = HttpMethod.Post
             contentType(ContentType.Application.Json)
             body = ClearRequest(Config.serverName)
+        }
+    }
+
+    suspend fun list(): ListResponse? {
+        return call(Path.List) {
+            method = HttpMethod.Get
         }
     }
 
