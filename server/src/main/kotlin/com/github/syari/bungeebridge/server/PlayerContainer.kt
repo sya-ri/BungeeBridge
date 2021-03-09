@@ -29,6 +29,9 @@ object PlayerContainer {
         servers.remove(name)
     }
 
+    val allPlayer
+        get() = servers.toMap()
+
     val allPlayerCount
         get() = servers.values.sumBy { it.size }
 }

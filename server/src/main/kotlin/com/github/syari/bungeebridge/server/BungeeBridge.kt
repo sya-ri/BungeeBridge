@@ -2,10 +2,12 @@ package com.github.syari.bungeebridge.server
 
 import com.github.syari.bungeebridge.server.properties.Option
 import com.github.syari.bungeebridge.server.route.clearAction
+import com.github.syari.bungeebridge.server.route.listAction
 import com.github.syari.bungeebridge.server.route.updateAction
 import io.ktor.application.install
 import io.ktor.features.ContentNegotiation
 import io.ktor.jackson.jackson
+import io.ktor.routing.get
 import io.ktor.routing.post
 import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
@@ -25,6 +27,7 @@ object BungeeBridge {
             routing {
                 post("/update") { updateAction() }
                 post("/clear") { clearAction() }
+                get("/list") { listAction() }
             }
         }.start(wait = true)
     }
