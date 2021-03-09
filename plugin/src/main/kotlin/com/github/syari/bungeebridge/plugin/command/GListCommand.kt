@@ -14,19 +14,14 @@ object GListCommand : Command(GList.name, GList.permission, *GList.aliases) {
         GlobalScope.launch(Dispatchers.IO) {
             val list = APIClient.list()
             if (list != null) {
-                val allList = mutableMapOf<String, MutableSet<String>>().apply {
+                val players = mutableMapOf<String, MutableSet<String>>().apply {
                     list.values.forEach {
                         it.players.forEach { (playerName, serverName) ->
                             getOrPut(serverName, ::mutableSetOf).add(playerName)
                         }
                     }
                 }
-                buildString {
-                    allList.forEach { (name, players) ->
-                        sender.sendMessage("${ChatColor.LIGHT_PURPLE}[$name] ${ChatColor.YELLOW}(${players.size}): ${ChatColor.RESET}${players.joinToString()}")
-                    }
-                    sender.sendMessage("${ChatColor.RESET}Total players online: ${allList.values.sumBy { it.size }}")
-                }
+                sender.sendPlayerList(players, ChatColor.LIGHT_PURPLE)
             } else {
                 sender.sendMessage("${ChatColor.RED}APIの接続に失敗しました")
             }

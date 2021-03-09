@@ -14,13 +14,12 @@ object ListCommand : Command(List.name, List.permission) {
         GlobalScope.launch(Dispatchers.IO) {
             val list = APIClient.list()
             if (list != null) {
-                buildString {
-                    list.forEach { (name, data) ->
-                        val players = data.players
-                        sender.sendMessage("${ChatColor.AQUA}[$name] ${ChatColor.YELLOW}(${players.size}): ${ChatColor.RESET}${players.keys.joinToString()}")
+                val players = mutableMapOf<String, Set<String>>().apply {
+                    list.forEach { (name, serverData) ->
+                        put(name, serverData.players.keys)
                     }
-                    sender.sendMessage("${ChatColor.RESET}Total players online: ${list.values.sumBy { it.players.keys.size }}")
                 }
+                sender.sendPlayerList(players, ChatColor.AQUA)
             } else {
                 sender.sendMessage("${ChatColor.RED}APIの接続に失敗しました")
             }
