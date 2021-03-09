@@ -4,6 +4,7 @@ import com.github.syari.bungeebridge.server.properties.Option
 import com.github.syari.bungeebridge.server.route.clearAction
 import com.github.syari.bungeebridge.server.route.listAction
 import com.github.syari.bungeebridge.server.route.updateAction
+import com.github.syari.bungeebridge.shared.Path
 import io.ktor.application.install
 import io.ktor.features.ContentNegotiation
 import io.ktor.jackson.jackson
@@ -25,9 +26,9 @@ object BungeeBridge {
                 jackson()
             }
             routing {
-                post("/update") { updateAction() }
-                post("/clear") { clearAction() }
-                get("/list") { listAction() }
+                post(Path.Update) { updateAction() }
+                post(Path.Clear) { clearAction() }
+                get(Path.List) { listAction() }
             }
         }.start(wait = true)
     }
