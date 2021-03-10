@@ -4,14 +4,18 @@ import com.github.syari.bungeebridge.server.properties.Option
 import java.util.Timer
 import java.util.TimerTask
 import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.ConcurrentSkipListSet
 import kotlin.concurrent.timerTask
 
 object PlayerContainer {
-    private val servers = ConcurrentHashMap<String, ConcurrentHashMap<String, String>>()
+    private val servers = ConcurrentSkipListSet<String>()
+    private val players = ConcurrentHashMap<String, ConcurrentHashMap<String, String>>()
     private val crashWatchdogTasks = ConcurrentHashMap<String, TimerTask>()
 
+    fun request(name: String) = servers.add(name)
+
     fun update(name: String, players: Map<String, String>) {
-        servers.getOrPut(name, ::ConcurrentHashMap).run {
+        this.players.getOrPut(name, ::ConcurrentHashMap).run {
             players.forEach { (playerName, serverName) ->
                 if (serverName.isEmpty()) {
                     remove(playerName)
@@ -31,12 +35,12 @@ object PlayerContainer {
     }
 
     fun clear(name: String) {
-        servers.remove(name)
+        players.remove(name)
     }
 
     val allPlayer
-        get() = servers.toMap()
+        get() = players.toMap()
 
     val allPlayerCount
-        get() = servers.values.sumBy { it.size }
+        get() = players.values.sumBy { it.size }
 }

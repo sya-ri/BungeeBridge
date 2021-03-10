@@ -24,6 +24,7 @@ suspend fun PipelineContext<Unit, ApplicationCall>.updateAction() {
         }
     }
     BungeeBridge.logger.info("$name:$playerInfo")
+    val firstRequest = PlayerContainer.request(name)
     PlayerContainer.update(name, players)
-    call.respond(UpdateResponse(PlayerContainer.allPlayerCount))
+    call.respond(UpdateResponse(PlayerContainer.allPlayerCount, firstRequest))
 }

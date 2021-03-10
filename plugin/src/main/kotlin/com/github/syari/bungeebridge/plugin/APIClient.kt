@@ -17,6 +17,7 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpMethod
 import io.ktor.http.contentType
 import kotlinx.coroutines.runBlocking
+import net.md_5.bungee.api.ProxyServer
 import java.net.ConnectException
 import java.util.concurrent.TimeUnit
 
@@ -38,13 +39,25 @@ object APIClient {
 
     private suspend fun update() {
         val players = SharePlayerCount.players
-        val response = call<UpdateResponse>(Path.Update) {
+        val response = update(players)
+        if (response != null && response.all) {
+            update(
+                ProxyServer.getInstance().players.associate {
+                    it.name to it.server.info.name
+                }
+            )
+        }
+    }
+
+    private suspend fun update(players: Map<String, String>): UpdateResponse? {
+        return call<UpdateResponse>(Path.Update) {
             method = HttpMethod.Post
             contentType(ContentType.Application.Json)
             body = UpdateRequest(Config.serverName, players)
-        } ?: return
-        players.forEach { SharePlayerCount.players.remove(it.key) }
-        SharePlayerCount.playerCount = response.allCount
+        }?.apply {
+            players.forEach { SharePlayerCount.players.remove(it.key) }
+            SharePlayerCount.playerCount = allCount
+        }
     }
 
     fun runClearBlocking() {
