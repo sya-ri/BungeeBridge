@@ -11,7 +11,10 @@ repositories {
 dependencies {
     shadowImplementation(project(":shared"))
     shadowImplementation("io.ktor:ktor-client-cio:1.5.2")
-    shadowImplementation("io.ktor:ktor-client-jackson:1.5.2")
+    shadowImplementation("io.ktor:ktor-client-jackson:1.5.2") {
+        exclude("org.jetbrains.kotlin", "kotlin-reflect")
+    }
+    shadowImplementation(kotlin("reflect"))
     implementation("net.md-5:bungeecord-api:1.16-R0.4")
 }
 
