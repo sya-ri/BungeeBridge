@@ -1,5 +1,6 @@
 package com.github.syari.bungeebridge.plugin
 
+import com.fasterxml.jackson.databind.exc.MismatchedInputException
 import com.github.syari.bungeebridge.plugin.BungeeBridge.Companion.plugin
 import com.github.syari.bungeebridge.shared.ClearRequest
 import com.github.syari.bungeebridge.shared.ListResponse
@@ -72,6 +73,9 @@ object APIClient {
             client.request<T>(url, action)
         } catch (ex: ConnectException) {
             plugin.logger.warning("Fail Connection ($url)")
+            null
+        } catch (ex: MismatchedInputException) {
+            plugin.logger.warning("Mismatched Input ($url)")
             null
         }
     }
