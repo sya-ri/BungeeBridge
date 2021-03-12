@@ -17,7 +17,10 @@ class BungeeBridge : Plugin() {
 
     override fun onEnable() {
         Config.load()
-        APIClient.startAutoUpdate()
+        proxy.scheduler.runAsync(this) {
+            APIClient.runClearBlocking()
+            APIClient.startAutoUpdate()
+        }
         proxy.pluginManager.run {
             registerListener(plugin, SharePlayerCount)
             registerCommand(plugin, ListCommand)
