@@ -1,5 +1,10 @@
 # BungeeBridge
-人数管理用のサーバー(WebAPI) を用意することで Bungeecord のサーバー同士で人数情報を共有する。
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/sya-ri/BungeeBridge)](https://github.com/sya-ri/BungeeBridge/releases/latest)
+[![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/)
+
+人数管理用のサーバー(WebAPI) を用意することで 複数の Bungeecord サーバー同士で人数情報を共有する。
+
+※ プレイヤーを利用する Bungeecord のプラグインは正常に動作しません。v2.0.0 で WebAPI から WebSocket に変更し、PluginMessage のような機能を実装する予定です。
 
 ## 設定
 
@@ -54,7 +59,7 @@ updateTime: 1000
 | コマンド | 別名 |説明 |
 |--------|------|------|
 | /blist | | Bungeecord 単位でプレイヤー一覧を表示する。|
-| /glist | | 全ての Bungeecord サーバーのプレイヤー一覧を表示する。 |
+| /glist | /gblist | 全ての Bungeecord サーバーのプレイヤー一覧を表示する。 |
 | /glist:bungee | /bungee:glist | 本来の /glist コマンドを実行する。同じ Bungeecord にいるプレイヤーのみが表示される。 |
 
 ## 開発者向け
